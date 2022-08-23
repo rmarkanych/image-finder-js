@@ -1,0 +1,25 @@
+body {
+  padding-top: 50px;
+  margin: 0;
+}
+.fixed-header {
+  height: 50px;
+  width: 100%;
+  position: fixed;
+  background: rgb(44, 159, 121);
+  padding: 10px 0;
+  color: #fff;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-form input {
+  padding: 8px;
+  width: 200px;
+}
+button {
+  padding: 8px;
+  width: 100px;
+  cursor: pointer;
+}
