@@ -9,6 +9,8 @@ const gallery = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
 let inputValue = '';
 let currentPage = 1;
+let numPage = 40;
+
 const lightbox = new SimpleLightbox('.gallery a');
 
 const getData = async inputValue => {
@@ -19,7 +21,7 @@ const getData = async inputValue => {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
-      per_page: 40,
+      per_page: numPage,
       page: currentPage,
     },
   };
@@ -27,7 +29,8 @@ const getData = async inputValue => {
     const r = await axios.get(BASE_URL, options);
     return r.data;
   } catch {
-    if (r.status !== 200) Notify.failure('Sorry');
+    if (r.status !== 200)
+      Notify.failure('Sorry, we are having problem now. Try again later.');
   }
 };
 
@@ -37,20 +40,27 @@ const onFormSubmit = async e => {
   inputValue = form.elements.searchQuery.value;
   try {
     const r = await getData(inputValue);
-    if (r.hits.length > 1) {
-      gallery.innerHTML = renderDataByBtn(r.hits);
-      Notify.success(`Hooray! We found ${r.totalHits} images.`);
-      currentPage++;
-      form.reset();
-      lightbox.refresh();
-      loadBtn.classList.add('load-more-active');
-    } else {
+    if (inputValue === '') {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
-      loadBtn.classList.remove('load-more-active');
       form.reset();
-      gallery.innerHTML = '';
+    } else {
+      if (r.hits.length > 1) {
+        gallery.innerHTML = renderDataByBtn(r.hits);
+        Notify.success(`Hooray! We found ${r.totalHits} images.`);
+        currentPage++;
+        form.reset();
+        lightbox.refresh();
+        if (r.totalHits > numPage) loadBtn.classList.add('load-more-active');
+      } else {
+        Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        loadBtn.classList.remove('load-more-active');
+        form.reset();
+        gallery.innerHTML = '';
+      }
     }
   } catch (error) {
     console.log(error.message);
@@ -98,20 +108,19 @@ const renderDataByBtn = dataImages => {
     .join('');
 };
 
-const loadDataByBtn = async () => {
+const onLoadDataByBtn = async () => {
   try {
     const r = await getData(inputValue);
     gallery.innerHTML += renderDataByBtn(r.hits);
     currentPage++;
-    const { height: cardHeight } = document
-      .querySelector('.gallery')
-      .firstElementChild.getBoundingClientRect();
+    lightbox.refresh();
 
-    window.scrollBy({
-      top: cardHeight * 2,
-      behavior: 'smooth',
-    });
-
+    if ((currentPage - 1) * numPage > r.totalHits) {
+      Notify.failure(
+        "We're sorry, but you've reached the end of search results."
+      );
+      loadBtn.classList.remove('load-more-active');
+    }
     if (r.hits.length === 0)
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -122,4 +131,4 @@ const loadDataByBtn = async () => {
 };
 
 form.addEventListener('submit', onFormSubmit);
-loadBtn.addEventListener('click', loadDataByBtn);
+loadBtn.addEventListener('click', onLoadDataByBtn);
