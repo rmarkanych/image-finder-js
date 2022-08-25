@@ -1,18 +1,50 @@
 body {
-  padding-top: 50px;
   margin: 0;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(23, 157, 116, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
 }
 .fixed-header {
   height: 50px;
   width: 100%;
   position: fixed;
-  background: rgb(44, 159, 121);
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(23, 157, 116, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
   padding: 10px 0;
   color: #fff;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+}
+.fixed-footer {
+  padding: 10px;
+  /* margin-top: 50px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  bottom: 0;
+  z-index: 1001;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(23, 157, 116, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
 }
 .search-form input {
   padding: 8px;
@@ -22,4 +54,73 @@ button {
   padding: 8px;
   width: 100px;
   cursor: pointer;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 60px;
+  margin-bottom: 80px;
+  margin-left: -20px;
+  justify-content: center;
+}
+
+.photo-link {
+  text-decoration: none;
+  margin-top: 20px;
+  margin-left: 20px;
+  min-width: 320px;
+  flex-basis: calc((100% - 80px) / 4);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.photo-link:hover,
+.photo-link:focus {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  transform: scale(1.03);
+}
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.photo-img {
+  display: block;
+  height: 30vh;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+}
+
+.info-item {
+  margin: 0;
+  text-align: center;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.load-more {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 1s ease-out;
+  /* display: none; */
+}
+
+.load-more-active {
+  opacity: 1;
+  visibility: visible;
+  transition: all 1s ease-out;
+  /* display: block; */
 }
