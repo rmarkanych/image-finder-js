@@ -1,11 +1,11 @@
 {
-  "name": "parcel-project-template",
+  "name": "image-finder-js",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://rmarkanych.github.io/goit-js-hw-11",
+  "homepage": "https://rmarkanych.github.io/image-finder-js",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /goit-js-hw-11/"
+    "build": "parcel build src/*.html --public-url /image-finder-js/"
   },
   "repository": {
     "type": "git",
